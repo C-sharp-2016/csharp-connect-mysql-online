@@ -18,17 +18,38 @@ namespace connect_mysql_online
         string connString;
 
         public Form1()
-        {
+        { 
             InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            this.connection();
         }
 
         private void connect_click(object sender, EventArgs e)
-        { 
+        {
+
+             
+            string query = "SELECT * FROM users";
+
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+
+            MySqlDataReader dataReader = cmd.ExecuteReader();
+
+            while (dataReader.Read())
+            {
+                Console.Write("| id = " + dataReader["id"]);
+                Console.Write("| username = " + dataReader["username"]);
+                Console.Write("| password = " + dataReader["password"]);
+                Console.Write("| created at = " + dataReader["created_at"]);
+                Console.WriteLine("");
+            }
+
+
+
+            conn.Close();
+            /*
             try
             {
                 connString = "SERVER=lifeafterpurchase.com;PORT=3306;DATABASE=twoleos_testing;UID=twoleos_testing;PASSWORD=twoleos_testing;";
@@ -66,6 +87,38 @@ namespace connect_mysql_online
             {
                 MessageBox.Show(ex.Message);
             } 
+
+            */
         }
+
+
+
+        private void connection() {
+            try
+            {
+                connString = "SERVER=lifeafterpurchase.com;PORT=3306;DATABASE=twoleos_testing;UID=twoleos_testing;PASSWORD=twoleos_testing;";
+
+                conn = new MySqlConnection();
+
+                conn.ConnectionString = connString;
+                conn.Open();
+
+                Console.WriteLine("Successfully Connected To Server");
+          
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+             
+
+        }
+        private void insert() { }
+        private void delete() { }
+        private void update() { }
+        private void query() { }
+
+
     }
 }
