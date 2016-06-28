@@ -15,6 +15,7 @@ namespace connect_mysql_online
     {
 
         MySqlConnection conn;
+        string connString;
 
         public Form1()
         {
@@ -27,10 +28,44 @@ namespace connect_mysql_online
         }
 
         private void connect_click(object sender, EventArgs e)
-        {
+        { 
+            try
+            {
+                connString = "SERVER=lifeafterpurchase.com;PORT=3306;DATABASE=twoleos_testing;UID=twoleos_testing;PASSWORD=twoleos_testing;";
+
+                conn = new MySqlConnection();
+
+                conn.ConnectionString = connString;
+                conn.Open(); 
+                MessageBox.Show("Connection Success!");
 
 
-            MessageBox.Show("connecting");
+
+                string query = "SELECT * FROM users";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while(dataReader.Read())
+                {
+                    Console.Write("| id = " + dataReader["id"]);
+                    Console.Write("| username = " + dataReader["username"]);
+                    Console.Write("| password = " + dataReader["password"]);
+                    Console.Write("| created at = " + dataReader["created_at"]);
+                    Console.WriteLine("");
+                }
+
+
+
+
+
+
+            }
+            catch( Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            } 
         }
     }
 }
