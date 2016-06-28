@@ -29,66 +29,11 @@ namespace connect_mysql_online
 
         private void connect_click(object sender, EventArgs e)
         {
+            insert();
 
-             
-            string query = "SELECT * FROM users";
-
-            MySqlCommand cmd = new MySqlCommand(query, conn);
-
-            MySqlDataReader dataReader = cmd.ExecuteReader();
-
-            while (dataReader.Read())
-            {
-                Console.Write("| id = " + dataReader["id"]);
-                Console.Write("| username = " + dataReader["username"]);
-                Console.Write("| password = " + dataReader["password"]);
-                Console.Write("| created at = " + dataReader["created_at"]);
-                Console.WriteLine("");
-            }
-
-
+            query();
 
             conn.Close();
-            /*
-            try
-            {
-                connString = "SERVER=lifeafterpurchase.com;PORT=3306;DATABASE=twoleos_testing;UID=twoleos_testing;PASSWORD=twoleos_testing;";
-
-                conn = new MySqlConnection();
-
-                conn.ConnectionString = connString;
-                conn.Open(); 
-                MessageBox.Show("Connection Success!");
-
-
-
-                string query = "SELECT * FROM users";
-
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-
-                while(dataReader.Read())
-                {
-                    Console.Write("| id = " + dataReader["id"]);
-                    Console.Write("| username = " + dataReader["username"]);
-                    Console.Write("| password = " + dataReader["password"]);
-                    Console.Write("| created at = " + dataReader["created_at"]);
-                    Console.WriteLine("");
-                }
-
-
-
-
-
-
-            }
-            catch( Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            } 
-
-            */
         }
 
 
@@ -101,8 +46,7 @@ namespace connect_mysql_online
                 conn = new MySqlConnection();
 
                 conn.ConnectionString = connString;
-                conn.Open();
-
+             
                 Console.WriteLine("Successfully Connected To Server");
           
 
@@ -114,10 +58,43 @@ namespace connect_mysql_online
              
 
         }
-        private void insert() { }
+        private void insert() {
+
+            conn.Open();
+
+                string query = "INSERT INTO users (username) VALUES ('tom')";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+
+            conn.Close();
+             
+          
+        }
         private void delete() { }
         private void update() { }
-        private void query() { }
+        private void query() {
+
+            conn.Open();
+
+                string query = "SELECT * FROM users";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    Console.Write("| id = " + dataReader["id"]);
+                    Console.Write("| username = " + dataReader["username"]);
+                    Console.Write("| password = " + dataReader["password"]);
+                    Console.Write("| created at = " + dataReader["created_at"]);
+                    Console.WriteLine("");
+                }
+
+
+            conn.Close();
+
+        }
 
 
     }
